@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Javascript</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <style>
+    *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
+    }
+
+    .calculator-form,
+    .calulator-result {
+      margin: 30px;
+      padding: 30px;
+      background-color: #F2F2F2;
+      border-radius: 5px;
+    }
+
+    .calculator-item {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .calculator-input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .calculator-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .calculator-form-row {
+      display: flex;
+      align-content: space-between;
+      flex-direction: row;
+    }
+
+    .calculator-form-row>input:first-child {
+      margin-right: 5px;
+    }
+
+    .calulator-result {
+      margin-top: 0;
+    }
+
+    .calculator-result-title {
+      margin-bottom: 15px;
+    }
+
+    .calculator-result-list>li {
+      margin-bottom: 5px;
+    }
+
+    .calculator-result-list>li:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <form class="calculator-form">
+      <div class="calculator-form-row calculator-item">
+        <input type="number" name="v1" id="v1" placeholder="Valor 1" class="calculator-input">
+        <input type="number" name="v2" id="v2" placeholder="Valor 2" class="calculator-input">
+      </div>
+
+      <select name="calculator-operation" id="calculator-operation" class="calculator-input calculator-item">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+
+      <input type="submit" value="Calcular" class="calculator-submit-button calculator-input calculator-item">
+    </form>
+
+    <div class="calulator-result">
+      <h4 class="calculator-result-title">Resultados:</h4>
+
+      <ul class="calculator-result-list"></ul>
+    </div>
+  </main>
+  <script>
+    class Calculator {
+      constructor(operation, value1, value2) {
+        this.value1 = value1
+        this.value2 = value2
+        this.operation = operation
+      }
+
+      setValue1(value1) {
+        if (value1 !== undefined) {
+          this.value1 = value1
+        } else {
+          console.log('O valor 1 fornecido é inválido');
+        }
+
+        return this
+      }
+
+      setValue2(value2) {
+        this.value2 = value2
+
+        return this
+      }
+
+      setOperation(operation) {
+        this.operation = operation
+
+        return this
+      }
+
+      sum() {
+        return this.value1 + this.value2
+      }
+
+      sub() {
+        return this.value1 - this.value2
+      }
+
+      mult() {
+        return this.value1 * this.value2
+      }
+
+      div() {
+        return this.value1 / this.value2
+      }
+
+      result() {
+        switch (this.operation) {
+          case '+':
+            return this.sum()
+          case '-':
+            return this.sub()
+          case '*':
+            return this.mult()
+          case '/':
+            return this.div()
+          default:
+            return 'Essa operação não existe'
+        }
+      }
+    }
+
+    const calculator = new Calculator
+
+    function getElement(selector) {
+      return document.querySelector(selector)
+    }
+
+    function getValue(selector) {
+      return getElement(selector).value
+    }
+
+    function getNumber(selector) {
+      return Number(getValue(selector))
+    }
+
+    const submitButton = getElement('.calculator-submit-button')
+
+    submitButton.addEventListener('click', (e) => {
+      e.preventDefault()
+
+      const v1 = getNumber('#v1')
+      const v2 = getNumber('#v2')
+
+      const operation = getValue('#calculator-operation')
+
+      const result = calculator
+        .setValue1(v1)
+        .setValue2(v2)
+        .setOperation(operation)
+        .result()
+
+      const resultListNode = getElement('.calculator-result-list')
+
+      const liElement = document.createElement('li')
+
+      const textNode = document.createTextNode(result)
+
+      liElement.appendChild(textNode)
+
+      resultListNode.appendChild(liElement)
+    })
+  </script>
+</body>
+
+</html>

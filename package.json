@@ -1,0 +1,13 @@
+{
+  "name": "calculadora.js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Eleandro Duzentos <eleandro@inbox.ru>",
+  "license": "MIT",
+  "scripts": {
+    "start": "browser-sync start --server --files \"*.html\""
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.14"
+  }
+}
